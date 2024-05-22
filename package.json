@@ -1,7 +1,19 @@
 {
   "name": "road-connect-infinity-games",
-  "uuid": "ec3f431b-e8d1-4ad6-ae36-7e3d1bd8a486",
+  "uuid": "fdee5b39-8dbc-4e7b-9100-ff4cca30bb05",
   "creator": {
     "version": "3.8.0"
+  },
+  "dependencies": {
+    "curl": "^0.1.4",
+    "socket.io-client": "^4.7.5",
+    "watch-fs": "^0.0.7"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.2",
+    "typescript-eslint": "^7.2.0"
   }
 }

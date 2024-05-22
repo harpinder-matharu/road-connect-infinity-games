@@ -1,0 +1,76 @@
+{
+  "path": [
+    {
+      "x": -128,
+      "y": 128,
+      "z": 0,
+      "isFixed": false,
+      "itemType": 2,
+      "rotationType": 2,
+      "angle": 0
+    },
+    {
+      "x": 0,
+      "y": 128,
+      "z": 0,
+      "isFixed": false,
+      "itemType": 1,
+      "rotationType": 1,
+      "angle": 90
+    },
+    {
+      "x": 128,
+      "y": 128,
+      "z": 0,
+      "isFixed": false,
+      "itemType": 2,
+      "rotationType": 2,
+      "angle": 270
+    },
+    {
+      "x": -128,
+      "y": 0,
+      "z": 0,
+      "isFixed": false,
+      "itemType": 1,
+      "rotationType": 1,
+      "angle": 0
+    },
+    {
+      "x": 128,
+      "y": 0,
+      "z": 0,
+      "isFixed": false,
+      "itemType": 1,
+      "rotationType": 1,
+      "angle": 0
+    },
+    {
+      "x": -128,
+      "y": -128,
+      "z": 0,
+      "isFixed": false,
+      "itemType": 2,
+      "rotationType": 2,
+      "angle": 90
+    },
+    {
+      "x": 0,
+      "y": -128,
+      "z": 0,
+      "isFixed": false,
+      "itemType": 1,
+      "rotationType": 1,
+      "angle": 90
+    },
+    {
+      "x": 128,
+      "y": -128,
+      "z": 0,
+      "isFixed": false,
+      "itemType": 2,
+      "rotationType": 2,
+      "angle": 180
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "path": [
+    {
+      "x": -64,
+      "y": 65,
+      "z": 0,
+      "isFixed": false,
+      "itemType": 2,
+      "rotationType": 2,
+      "angle": 0
+    },
+    {
+      "x": 64,
+      "y": 65,
+      "z": 0,
+      "isFixed": false,
+      "itemType": 2,
+      "rotationType": 2,
+      "angle": 270
+    },
+    {
+      "x": -64,
+      "y": -63,
+      "z": 0,
+      "isFixed": false,
+      "itemType": 2,
+      "rotationType": 2,
+      "angle": 90
+    },
+    {
+      "x": 64,
+      "y": -63,
+      "z": 0,
+      "isFixed": false,
+      "itemType": 2,
+      "rotationType": 2,
+      "angle": 180
+    }
+  ]
+}
