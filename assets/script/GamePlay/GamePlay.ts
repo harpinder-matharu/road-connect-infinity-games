@@ -25,30 +25,38 @@ const { ccclass, property } = _decorator;
 
 @ccclass("GamePlay")
 export class GamePlay extends Component {
+  /**
+   * Array of Road data with values prefab and item type.
+   */
   @property({ type: [BaseData], visible: true }) roadsData: BaseData[] = [];
   @property({ type: Node }) mainNode: Node;
   @property({ type: Label }) levelLabel: Label;
 
+  // Random initial rotation angles for four-way items at the start of the level
   fourWayArray = [0, 90, 180, 270];
+  // Random initial rotation angles for two-way items at the start of the level
   twoWayArray = [0, 90];
+  // Data structure for optimization.
   roadTypeKeyPair: {} = {};
 
-  _levelData: JsonAsset = null;
+  // Property to check level in editor
+  _testLevel: JsonAsset = null;
   @property({ type: JsonAsset })
-  get levelData2() {
-    return this._levelData;
+  get TestLevel() {
+    return this._testLevel;
   }
-  set levelData2(value) {
-    this._levelData = value;
+  set TestLevel(value) {
+    this._testLevel = value;
     this.mainNode.destroyAllChildren();
     if (value) {
       this.roadsData.forEach((value) => {
         this.roadTypeKeyPair[value.roadType] = value._roadPrefab;
       });
-      this.updateLevel(this._levelData.json, false);
+      this.updateLevel(this._testLevel.json, false);
     }
   }
 
+  // To print the data of the level which was created.
   _printData: Boolean = false;
   @property({ type: CCBoolean })
   get printData() {
@@ -262,11 +270,15 @@ export class GamePlay extends Component {
     return flag;
   };
 
-  // Function to play tween on a single child and return a promise
-  playTweenOnChild(child) {
+  /**
+   * @description Function to play tween on a single child and return a promise
+   * @param child
+   * @returns promise
+   */
+  playTweenOnChild(child: Node) {
     return new Promise<void>((resolve) => {
       tween(child)
-        .to(0.3, { scale: Vec3.ZERO }, { easing: easing.expoIn }) // Example tween operation
+        .to(0.3, { scale: Vec3.ZERO }, { easing: easing.expoIn })
         .call(() => {
           console.log(`Tween completed for child: ${child.name}`);
           resolve();
@@ -275,8 +287,12 @@ export class GamePlay extends Component {
     });
   }
 
-  // Function to play tweens in sequence on all children
-  playTweenOnChildren(node, finalCallback) {
+  /**
+   * @description Function to play tweens in sequence on all children.
+   * @param node Parent of nodes on which tween has to be played.
+   * @param finalCallback Calback to be triggerd after complition of all the tweens.
+   */
+  playTweenOnChildren(node: Node, finalCallback: Function) {
     const children = node.children;
     let promiseChain = [];
 
@@ -294,6 +310,7 @@ export class GamePlay extends Component {
     GameManager.Instance.PersistNodeRef.playEffect(
       ResourcesManager.Instance.getResourceFromCache(SOUNDS_NAME.DEFAULT_CLICK)
     );
+
     director.loadScene(SCENE.LOBBY);
   }
 }

@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "road8",
+    "_name": "grid",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "road8",
+    "_name": "grid",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -136,7 +136,7 @@
     "fileId": "d4UB4PXQZNP7vmHPTwNMLa"
   },
   {
-    "__type__": "f0a65pv101GHqQ1Z25wG1fX",
+    "__type__": "0849bxAaw5P5aw6XAG8pacF",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -147,14 +147,11 @@
     "__prefab": {
       "__id__": 7
     },
-    "itemType": 0,
-    "rotationType": 0,
-    "isFixed": false,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "98mu2Lnr5MyJ+r3SfQryzp"
+    "fileId": "606bpFJDhMlKp4KTGSvpzJ"
   },
   {
     "__type__": "cc.PrefabInfo",
