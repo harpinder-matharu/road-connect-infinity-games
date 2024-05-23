@@ -14,7 +14,7 @@ export const SCENE = {
   LOBBY: "Lobby",
 };
 
-export const MAX_LEVELS = 2;
+export const MAX_LEVELS = 10;
 
 export enum SOUNDS_NAME {
   FUNKY_CHILL_2_LOOP = "FunkyChill2loop",

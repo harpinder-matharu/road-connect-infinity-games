@@ -156,5 +156,14 @@ export class LevelCreator extends Component {
     console.log(completeLevel);
   }
 
-  update(deltaTime: number) {}
+  onClear() {
+    let array = this.grid.children;
+    let road: Node = null;
+    array.forEach((element) => {
+      road = element.getComponent(GridItem).getRoad();
+      if (road) {
+        road.removeFromParent();
+      }
+    });
+  }
 }

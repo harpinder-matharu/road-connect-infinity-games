@@ -22,6 +22,12 @@ import { BaseData } from "./BaseData";
 import { levelItem, ITEM_TYPE, ROTATION_TYPE } from "./levelItem";
 
 const { ccclass, property } = _decorator;
+const anglePairs = {
+  0: [0, 180],
+  90: [90, 270],
+  180: [0, 180],
+  270: [90, 270],
+};
 
 @ccclass("GamePlay")
 export class GamePlay extends Component {
@@ -247,14 +253,7 @@ export class GamePlay extends Component {
       const resultantAngle = element.getComponent(levelItem).resultantAngle;
       switch (rotationType) {
         case ROTATION_TYPE.TWO_WAY:
-          if (
-            (resultantAngle === 90 &&
-              element.angle !== 90 &&
-              element.angle !== 270) ||
-            (resultantAngle === 0 &&
-              element.angle !== 0 &&
-              element.angle !== 180)
-          ) {
+          if (!anglePairs[resultantAngle].includes(element.angle)) {
             flag = false;
           }
           break;
@@ -262,6 +261,8 @@ export class GamePlay extends Component {
           if (element.angle !== resultantAngle) {
             flag = false;
           }
+          break;
+        case ROTATION_TYPE.ZERO_WAY:
           break;
         default:
           break;

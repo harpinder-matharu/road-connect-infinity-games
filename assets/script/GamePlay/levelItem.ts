@@ -15,6 +15,7 @@ export enum ROTATION_TYPE {
   NONE,
   TWO_WAY,
   FOUR_WAY,
+  ZERO_WAY,
 }
 export interface itemDataType {
   obj: {
