@@ -14,12 +14,13 @@ import {
   director,
   AudioClip,
 } from "cc";
-import { SOUNDS_NAME, SCENE } from "../constants/Constant";
+import { SOUNDS_NAME, SCENE, DURATIONS } from "../constants/Constant";
 import { DataManager } from "../managers/DataManager";
 import { GameManager } from "../managers/GameManager";
 import { ResourcesManager } from "../managers/ResourcesManager";
 import { BaseData } from "./BaseData";
 import { levelItem, ITEM_TYPE, ROTATION_TYPE } from "./levelItem";
+import { LevelNumber } from "./LevelNumber";
 
 const { ccclass, property } = _decorator;
 const anglePairs = {
@@ -104,16 +105,35 @@ export class GamePlay extends Component {
   }
 
   initNewLevel() {
-    const levelPath = `Levels/level${DataManager.Instance.LevelSelected}`;
-    resources.load(levelPath, JsonAsset, (err, level) => {
-      console.log(level.json);
+    let levelData: JsonAsset = <JsonAsset>(
+      ResourcesManager.Instance.getResourceFromCache(
+        `level${DataManager.Instance.LevelSelected}`
+      )
+    );
+    if (levelData) {
+      console.log("LOCAL LEVEL FOUND");
       this.mainNode.destroyAllChildren();
-      this.updateLevel(level.json, true);
-      this.updateLevelLabel(DataManager.Instance.LevelSelected);
-      GameManager.Instance.PersistNodeRef.playEffect(
-        ResourcesManager.Instance.getResourceFromCache(SOUNDS_NAME.SHAPE_APPEAR)
-      );
-    });
+      this.updateLevel(levelData.json, true);
+      this.levelInitiated();
+    } else {
+      console.log("LOCAL LEVEL NOT FOUND");
+
+      const levelPath = `Levels/level${DataManager.Instance.LevelSelected}`;
+      resources.load(levelPath, JsonAsset, (err, level) => {
+        this.mainNode.destroyAllChildren();
+        this.updateLevel(level.json, true);
+        this.levelInitiated();
+      });
+    }
+  }
+
+  levelInitiated() {
+    this.levelLabel
+      .getComponent(LevelNumber)
+      .updateLevelNumber(DataManager.Instance.LevelSelected);
+    GameManager.Instance.PersistNodeRef.playEffect(
+      ResourcesManager.Instance.getResourceFromCache(SOUNDS_NAME.SHAPE_APPEAR)
+    );
   }
 
   updateLevelLabel(level: number) {
@@ -135,6 +155,9 @@ export class GamePlay extends Component {
      */
 
     let path = itemsInfo.path;
+    let delayInEachRoad: number =
+      DURATIONS.LEVEL_BUILDING / itemsInfo.path.length;
+
     path.forEach((element, index) => {
       let item: Node = null;
       item = instantiate(this.roadTypeKeyPair[element.itemType]);
@@ -169,7 +192,7 @@ export class GamePlay extends Component {
           .call(() => {
             item.setScale(Vec3.ZERO);
           })
-          .delay(index * 0.05)
+          .delay(index * delayInEachRoad)
           .to(0.1, { scale: Vec3.ONE }, { easing: easing.expoOut })
           .start();
       } else {
@@ -211,8 +234,6 @@ export class GamePlay extends Component {
 
   checkIfLevelCompleted() {
     if (this.gameCompleted()) {
-      console.log("YEAH YOU ARE DOING GREAT!!");
-
       DataManager.Instance.levelFinished();
       this.updateStatusOnComplete();
 
@@ -221,23 +242,22 @@ export class GamePlay extends Component {
       });
       DataManager.Instance.incrementSlectedLevel();
 
-      let clip: AudioClip = <AudioClip>(
-        ResourcesManager.Instance.getResourceFromCache(
-          SOUNDS_NAME.LEVEL_COMPLETE
-        )
-      );
-      console.log("DURATION: ", clip.getDuration());
+      // let clip: AudioClip = <AudioClip>(
+      //   ResourcesManager.Instance.getResourceFromCache(
+      //     SOUNDS_NAME.LEVEL_COMPLETE
+      //   )
+      // );
       GameManager.Instance.PersistNodeRef.playEffect(
         ResourcesManager.Instance.getResourceFromCache(
           SOUNDS_NAME.LEVEL_COMPLETE
         )
       );
+
+      this.levelLabel.getComponent(LevelNumber).exit();
       this.playTweenOnChildren(this.mainNode, () => {
-        console.log("Final operation after all tweens");
-        // Perform final operation here
         setTimeout(() => {
           this.initNewLevel();
-        }, (clip.getDuration() / 2) * 1000);
+        }, 1000);
       });
     }
   }
@@ -279,9 +299,12 @@ export class GamePlay extends Component {
   playTweenOnChild(child: Node) {
     return new Promise<void>((resolve) => {
       tween(child)
-        .to(0.3, { scale: Vec3.ZERO }, { easing: easing.expoIn })
+        .to(
+          DURATIONS.LEVEL_CLEARING,
+          { scale: Vec3.ZERO },
+          { easing: easing.expoIn }
+        )
         .call(() => {
-          console.log(`Tween completed for child: ${child.name}`);
           resolve();
         })
         .start();
@@ -302,7 +325,6 @@ export class GamePlay extends Component {
     });
 
     Promise.all(promiseChain).then(() => {
-      console.log("All tweens completed");
       finalCallback();
     });
   }

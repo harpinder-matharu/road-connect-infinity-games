@@ -88,12 +88,6 @@ export class Draggable extends Component {
       )!;
 
     this.dragOffset = touchPosInNode.subtract(this.node.getPosition());
-
-    console.log({
-      touchStartPos: this.touchStartPos,
-      touchPosInNode,
-      dragOffset: this.dragOffset,
-    });
   }
 
   /**

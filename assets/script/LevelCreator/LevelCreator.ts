@@ -34,20 +34,6 @@ export class LevelCreator extends Component {
   draggableRoad: Node = null;
   isDragging: any;
   start() {
-    director.on(
-      "ITEM_CLICKED",
-      (node: Node) => {
-        let draggable = instantiate(node);
-
-        console.log(
-          "Item cloned: ",
-          draggable.getComponent(levelItem).itemType
-        );
-        this.node.addChild(draggable);
-      },
-      this
-    );
-
     this.addGridItems();
     this.node.on(Node.EventType.TOUCH_START, this.touchStart, this);
     this.node.on(Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
@@ -106,7 +92,6 @@ export class LevelCreator extends Component {
       return;
     }
     this.isDragging = true;
-    console.log("ITEM: ", itemIndex);
 
     this.draggableRoad = instantiate(items[itemIndex]);
     this.city.addChild(this.draggableRoad);

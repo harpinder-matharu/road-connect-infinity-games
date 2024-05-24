@@ -31,8 +31,8 @@ export class ResourcesManager {
 
   private static getAssetFromCache(path: string): Asset | undefined {
     const resourceMap = this.resourceCache;
-    console.log("Resource map", resourceMap);
-    console.log("Resource map", path);
+    // console.log("Resource map", resourceMap);
+    // console.log("Resource map", path);
     if (resourceMap.has(path)) {
       const asset = resourceMap.get(path);
       return asset;

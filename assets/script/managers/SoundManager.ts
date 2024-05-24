@@ -42,7 +42,6 @@ export class SoundManager {
   }
 
   playSoundEffect(clip: AudioClip, loop: boolean = false) {
-    // console.log('EFFECT->', clip);
     if (!this.canPlaySound) {
       return;
     }

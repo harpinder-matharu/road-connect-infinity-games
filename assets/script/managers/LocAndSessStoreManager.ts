@@ -36,7 +36,6 @@ export class LocAndSessStoreManager {
   public getData(key: string, storageType: STORAGE = STORAGE.LOCAL): string {
     //check if is available in data cache
     const dataCache = this.dataCache;
-    console.log("dataCache.get(key)", dataCache.get(key), dataCache.has(key));
     if (dataCache.has(key)) return dataCache.get(key) || "";
 
     let data;
@@ -64,7 +63,6 @@ export class LocAndSessStoreManager {
     data: string,
     storageType: STORAGE = STORAGE.LOCAL
   ) {
-    console.log(key, data);
     this.dataCache.set(key, data);
     //checking for local and seession storage to store
     switch (storageType) {

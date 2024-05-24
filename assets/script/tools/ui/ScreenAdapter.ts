@@ -1,8 +1,8 @@
-import { EventManager } from '../../managers/EventManager';
-import { _decorator, Component, ResolutionPolicy, view } from 'cc';
+import { EventManager } from "../../managers/EventManager";
+import { _decorator, Component, ResolutionPolicy, view } from "cc";
 const { ccclass } = _decorator;
 
-@ccclass('ScreenAdapter')
+@ccclass("ScreenAdapter")
 export class ScreenAdapter extends Component {
   /**
    * Life cycle: load
@@ -41,7 +41,7 @@ export class ScreenAdapter extends Component {
     this.adapt();
     // Because SetResizeCallBack can only set up a callbackback
     // Use the event system to send a specific event, so that other components can also monitor the window changes
-    EventManager.emit('view-resize');
+    EventManager.emit("view-resize");
   }
 
   /**
@@ -55,7 +55,8 @@ export class ScreenAdapter extends Component {
     const designResolution = view.getDesignResolutionSize(),
       designRatio = designResolution.width / designResolution.height;
     // Determine the actual screen width and height ratio
-    if (screenRatio <= 1) {
+    //console.log("Screen ratio", screenRatio);
+    if (screenRatio <= 1.7) {
       // At this time, the screen height is greater than width
       if (screenRatio <= designRatio) {
         this.setFitWidth();

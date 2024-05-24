@@ -1,4 +1,11 @@
-import { _decorator, AudioSource, Component, director, Node } from "cc";
+import {
+  _decorator,
+  AudioSource,
+  Component,
+  director,
+  Node,
+  ProgressBar,
+} from "cc";
 
 import { GameManager } from "../managers/GameManager";
 import {
@@ -7,7 +14,12 @@ import {
 } from "../../components/loader/CircularLoader";
 import { SoundManager } from "../managers/SoundManager";
 import { ResourcesManager } from "../managers/ResourcesManager";
-import { SOUNDS_NAME } from "../constants/Constant";
+import {
+  ASSET_CACHE_MODE,
+  CUSTON_EVENT,
+  MAX_LEVELS,
+  SOUNDS_NAME,
+} from "../constants/Constant";
 const { ccclass, property } = _decorator;
 
 @ccclass("PersistNode")
@@ -20,6 +32,9 @@ export class PersistNode extends Component {
   musicAudioSource: Node = null;
   @property({ type: Node })
   soundAudioSource: Node = null;
+
+  @property({ type: ProgressBar })
+  loadingProgress: ProgressBar = null!;
 
   start() {
     director.addPersistRootNode(this.node);
@@ -61,16 +76,23 @@ export class PersistNode extends Component {
   }
 
   async loadAudios() {
-    await ResourcesManager.loadArrayOfResource([
-      { settingsPopup: "SoundMusic/FunkyChill2loop" },
-      { settingsPopup2: "SoundMusic/DefaultClick" },
-      { settingsPopup3: "SoundMusic/RotateShape" },
-      { settingsPopup4: "SoundMusic/ShapeAppear" },
-      { settingsPopup5: "SoundMusic/LevelComplete" },
-    ]);
-    console.log(
-      "HEY",
-      ResourcesManager.Instance.getResourceFromCache("FunkyChill2loop")
+    let audioResources = [
+      { FunkyChill2loop: "SoundMusic/FunkyChill2loop" },
+      { DefaultClick: "SoundMusic/DefaultClick" },
+      { RotateShape: "SoundMusic/RotateShape" },
+      { ShapeAppear: "SoundMusic/ShapeAppear" },
+      { LevelComplete: "SoundMusic/LevelComplete" },
+    ];
+
+    let levelReources = [];
+    for (let index = 1; index <= MAX_LEVELS; index++) {
+      levelReources.push({ index: `Levels/level${index}` });
+    }
+    let resouresToBeLoaded = [...levelReources, ...audioResources];
+    await ResourcesManager.loadArrayOfResource(
+      resouresToBeLoaded,
+      ASSET_CACHE_MODE.Normal,
+      this.loading
     );
 
     SoundManager.getInstance().setMusicVolume(0.3);
@@ -81,4 +103,14 @@ export class PersistNode extends Component {
       true
     );
   }
+
+  loading = (progress: number) => {
+    this.loadingProgress.progress = progress;
+    console.log("PROGRESS: ", progress);
+    if (progress >= 1) {
+      console.log("EMITTED: ", progress);
+      this.loadingProgress.node.active = false;
+      director.emit(CUSTON_EVENT.LOADING_DONE);
+    }
+  };
 }

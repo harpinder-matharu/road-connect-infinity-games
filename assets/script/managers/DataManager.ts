@@ -77,4 +77,13 @@ export class DataManager {
   public set LevelPlayed(levelNum: number) {
     this._levelPlayed = levelNum;
   }
+
+  private _hasVisitedHomePage: boolean = false;
+
+  public get hasVisitedHomePage(): boolean {
+    return this._hasVisitedHomePage;
+  }
+  public set hasVisitedHomePage(levelNum: boolean) {
+    this._hasVisitedHomePage = levelNum;
+  }
 }
