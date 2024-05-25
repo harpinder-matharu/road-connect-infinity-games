@@ -95,7 +95,9 @@ export class PersistNode extends Component {
       this.loading
     );
 
-    SoundManager.getInstance().setMusicVolume(0.3);
+    SoundManager.getInstance().setMusicVolume(0.5);
+    SoundManager.getInstance().setEffectsVolume(1);
+
     this.playAudio(
       ResourcesManager.Instance.getResourceFromCache(
         SOUNDS_NAME.FUNKY_CHILL_2_LOOP

@@ -20,11 +20,12 @@ import {
   SCENE,
 } from "../constants/Constant";
 import { DataManager } from "../managers/DataManager";
-import { LevelButton } from "./LevelButton";
+
 import {
   LocAndSessStoreManager,
   STORAGE,
 } from "../managers/LocAndSessStoreManager";
+import { LevelButton } from "./LevelButton";
 const { ccclass, property } = _decorator;
 
 @ccclass("Lobby")

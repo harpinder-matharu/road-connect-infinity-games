@@ -17,7 +17,7 @@ export const SCENE = {
 export const DURATIONS = {
   LEVEL_BUILDING: 0.5,
   LEVEL_CLEARING: 0.3,
-  LOGO_IN: 1,
+  LOGO_IN: 0.1,
   PLAY_IN: 0.5,
 };
 

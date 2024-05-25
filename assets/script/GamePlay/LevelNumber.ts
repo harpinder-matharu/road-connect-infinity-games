@@ -1,4 +1,13 @@
-import { _decorator, Component, Label, tween, UITransform, Vec3 } from "cc";
+import {
+  _decorator,
+  Color,
+  Component,
+  Label,
+  Sprite,
+  tween,
+  UITransform,
+  Vec3,
+} from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelNumber")
@@ -6,8 +15,9 @@ export class LevelNumber extends Component {
   @property({ type: Label })
   num: Label = null!;
 
+  sprite: Sprite = null!;
   start() {
-    // this.updateLevelNumber(0);
+    this.sprite = this.node.getComponent(Sprite);
   }
 
   updateLevelNumber(levelNum: number) {
@@ -19,9 +29,15 @@ export class LevelNumber extends Component {
     let initPosX = parentSize.width / 2 + nodeSize.width / 2;
     this.num.string = levelNum.toString();
     this.node.setPosition(initPosX, this.node.position.y);
-    tween(this.node)
-      .to(0.2, {
-        position: new Vec3(0, this.node.position.y, 0),
+
+    let tweenDuration: number = 0.4;
+    tween(this.node.position)
+      .to(tweenDuration, new Vec3(0, this.node.position.y, 0), {
+        onUpdate: (target: Vec3, ratio: number) => {
+          this.node.position = target;
+          this.sprite.color = new Color(0, 0, 0, 255 * ratio);
+          console.log("ratio", ratio);
+        },
       })
       .start();
   }
@@ -34,9 +50,14 @@ export class LevelNumber extends Component {
       .getBoundingBox();
     let endPosX = -parentSize.width / 2 - nodeSize.width / 2;
 
-    tween(this.node)
-      .to(0.2, {
-        position: new Vec3(endPosX, this.node.position.y, 0),
+    let tweenDuration: number = 0.4;
+    tween(this.node.position)
+      .to(tweenDuration, new Vec3(endPosX, this.node.position.y, 0), {
+        onUpdate: (target: Vec3, ratio: number) => {
+          this.node.position = target;
+          this.sprite.color = new Color(0, 0, 0, 255 * (1 - ratio));
+          console.log("ratio", ratio);
+        },
       })
       .start();
   }

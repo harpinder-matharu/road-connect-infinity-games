@@ -136,16 +136,6 @@ export class GamePlay extends Component {
     );
   }
 
-  updateStatusOnComplete() {}
-  protected onBeforeHide(suspended: boolean): Promise<void> {
-    return new Promise((res, rej) => {
-      res();
-    });
-  }
-
-  protected updateDisplay(options: any): void {
-    // director.on(GameEvent.OnGameEnded, this.closeGame, this);
-  }
   updateLevel = (itemsInfo: any, changeAngles: boolean) => {
     /**
      * Iterating the json file and checking each asset's types and creating the instance according to the type
@@ -232,18 +222,12 @@ export class GamePlay extends Component {
   checkIfLevelCompleted() {
     if (this.gameCompleted()) {
       DataManager.Instance.levelFinished();
-      this.updateStatusOnComplete();
 
       this.mainNode.children.forEach((element, index) => {
         element.off(Input.EventType.TOUCH_START, this.checkPos);
       });
       DataManager.Instance.incrementSlectedLevel();
 
-      // let clip: AudioClip = <AudioClip>(
-      //   ResourcesManager.Instance.getResourceFromCache(
-      //     SOUNDS_NAME.LEVEL_COMPLETE
-      //   )
-      // );
       GameManager.Instance.PersistNodeRef.playEffect(
         ResourcesManager.Instance.getResourceFromCache(
           SOUNDS_NAME.LEVEL_COMPLETE
