@@ -178,7 +178,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 960.0000000000001,
+    "_orthoHeight": 960,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -1002,7 +1002,9 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "num": null,
+    "num": {
+      "__id__": 24
+    },
     "_id": "059mxN+AxOkbigJcSGj0LI"
   },
   {
@@ -1164,7 +1166,9 @@
     "mainNode": {
       "__id__": 6
     },
-    "levelLabel": null,
+    "levelLabel": {
+      "__id__": 17
+    },
     "_id": "48n2fL0JpLH7FH2r/Ku1ay"
   },
   {

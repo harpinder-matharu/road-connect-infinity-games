@@ -37,7 +37,7 @@ export class GamePlay extends Component {
    */
   @property({ type: [BaseData], visible: true }) roadsData: BaseData[] = [];
   @property({ type: Node }) mainNode: Node;
-  @property({ type: Label }) levelLabel: Label;
+  @property({ type: Node }) levelLabel: Node;
 
   // Random initial rotation angles for four-way items at the start of the level
   fourWayArray = [0, 90, 180, 270];
@@ -136,9 +136,6 @@ export class GamePlay extends Component {
     );
   }
 
-  updateLevelLabel(level: number) {
-    this.levelLabel.string = `Level ${level}`;
-  }
   updateStatusOnComplete() {}
   protected onBeforeHide(suspended: boolean): Promise<void> {
     return new Promise((res, rej) => {

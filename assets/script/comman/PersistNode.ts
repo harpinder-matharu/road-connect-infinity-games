@@ -106,9 +106,7 @@ export class PersistNode extends Component {
 
   loading = (progress: number) => {
     this.loadingProgress.progress = progress;
-    console.log("PROGRESS: ", progress);
     if (progress >= 1) {
-      console.log("EMITTED: ", progress);
       this.loadingProgress.node.active = false;
       director.emit(CUSTON_EVENT.LOADING_DONE);
     }
