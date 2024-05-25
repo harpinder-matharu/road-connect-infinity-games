@@ -1,8 +1,11 @@
 import { _decorator, Component, Label, tween, UITransform, Vec3 } from "cc";
-const { ccclass } = _decorator;
+const { ccclass, property } = _decorator;
 
 @ccclass("LevelNumber")
 export class LevelNumber extends Component {
+  @property({ type: Label })
+  num: Label = null!;
+
   start() {
     // this.updateLevelNumber(0);
   }
@@ -14,7 +17,7 @@ export class LevelNumber extends Component {
       .getComponent(UITransform)
       .getBoundingBox();
     let initPosX = parentSize.width / 2 + nodeSize.width / 2;
-    this.node.getComponent(Label).string = `LEVEL ${levelNum}`;
+    this.num.string = levelNum.toString();
     this.node.setPosition(initPosX, this.node.position.y);
     tween(this.node)
       .to(0.2, {
