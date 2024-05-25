@@ -111,13 +111,10 @@ export class GamePlay extends Component {
       )
     );
     if (levelData) {
-      console.log("LOCAL LEVEL FOUND");
       this.mainNode.destroyAllChildren();
       this.updateLevel(levelData.json, true);
       this.levelInitiated();
     } else {
-      console.log("LOCAL LEVEL NOT FOUND");
-
       const levelPath = `Levels/level${DataManager.Instance.LevelSelected}`;
       resources.load(levelPath, JsonAsset, (err, level) => {
         this.mainNode.destroyAllChildren();

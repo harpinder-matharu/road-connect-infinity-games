@@ -106,7 +106,6 @@ export class Lobby extends Component {
 
   activatePlayBtn() {
     if (this.isLodingDone && this.isLogoAniDone) {
-      console.log("PLAY: ", this.isLodingDone && this.isLogoAniDone);
       tween(this.playBtn)
         .to(DURATIONS.PLAY_IN, { scale: Vec3.ONE }, { easing: easing.circOut })
         .start();

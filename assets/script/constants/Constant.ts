@@ -1,11 +1,9 @@
 export const LOCAL_STORAGE = {
-  TOKEN: "token",
-  GAMEID: "gameid",
+  LANGUAGE_ID: "languageId",
   LAST_OPENED: "lastOpenedLevel",
 };
 export const SESSION_STORAGE = {
-  TOKEN: "token",
-  GAMEID: "gameid",
+  LANGUAGE_ID: "languageId",
   GAME_STARTED: "gameStarted",
 };
 

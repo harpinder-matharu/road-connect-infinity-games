@@ -21,7 +21,6 @@ export class LevelNumber extends Component {
   }
 
   updateLevelNumber(levelNum: number) {
-    console.log("UPDATE LEVEL NUM: ", levelNum);
     let nodeSize = this.node.getComponent(UITransform).getBoundingBox();
     let parentSize = this.node.parent
       .getComponent(UITransform)
@@ -36,7 +35,6 @@ export class LevelNumber extends Component {
         onUpdate: (target: Vec3, ratio: number) => {
           this.node.position = target;
           this.sprite.color = new Color(0, 0, 0, 255 * ratio);
-          console.log("ratio", ratio);
         },
       })
       .start();
@@ -56,7 +54,6 @@ export class LevelNumber extends Component {
         onUpdate: (target: Vec3, ratio: number) => {
           this.node.position = target;
           this.sprite.color = new Color(0, 0, 0, 255 * (1 - ratio));
-          console.log("ratio", ratio);
         },
       })
       .start();

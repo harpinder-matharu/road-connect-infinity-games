@@ -8,7 +8,7 @@ export const languages = {
     connect: "CONECTAR",
     play: "JOGAR",
     level: "NIVEL",
-    selectlevel: "SELECIONE O NÍVEL",
+    selectlevel: "SELECIONE O NIVEL",
   },
 };
 
