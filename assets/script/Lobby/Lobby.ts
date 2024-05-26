@@ -15,16 +15,10 @@ import {
   DURATIONS,
   MAX_LEVELS,
   IS_TESTING_MODE,
-  SESSION_STORAGE,
   CUSTON_EVENT,
   SCENE,
 } from "../constants/Constant";
 import { DataManager } from "../managers/DataManager";
-
-import {
-  LocAndSessStoreManager,
-  STORAGE,
-} from "../managers/LocAndSessStoreManager";
 import { LevelButton } from "./LevelButton";
 const { ccclass, property } = _decorator;
 

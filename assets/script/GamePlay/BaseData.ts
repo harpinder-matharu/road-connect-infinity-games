@@ -1,6 +1,7 @@
 import { _decorator, Component, instantiate, Node, Prefab } from "cc";
-import { ITEM_TYPE, levelItem } from "./levelItem";
+import { levelItem } from "./levelItem";
 import { EDITOR } from "cc/env";
+import { ITEM_TYPE } from "../constants/Constant";
 const { ccclass, property } = _decorator;
 
 @ccclass("BaseData")

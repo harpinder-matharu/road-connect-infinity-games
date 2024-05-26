@@ -9,8 +9,9 @@ import {
   UITransform,
   Vec3,
 } from "cc";
-import { ITEM_TYPE, levelItem } from "../GamePlay/levelItem";
+import { levelItem } from "../GamePlay/levelItem";
 import { GridItem } from "./GridItem";
+import { ITEM_TYPE } from "../constants/Constant";
 
 const { ccclass, property } = _decorator;
 

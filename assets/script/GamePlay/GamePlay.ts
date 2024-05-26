@@ -10,17 +10,23 @@ import {
   resources,
   tween,
   easing,
-  Label,
   director,
-  AudioClip,
 } from "cc";
-import { SOUNDS_NAME, SCENE, DURATIONS } from "../constants/Constant";
+import {
+  SOUNDS_NAME,
+  SCENE,
+  DURATIONS,
+  ITEM_TYPE,
+  ROTATION_TYPE,
+} from "../constants/Constant";
 import { DataManager } from "../managers/DataManager";
 import { GameManager } from "../managers/GameManager";
 import { ResourcesManager } from "../managers/ResourcesManager";
 import { BaseData } from "./BaseData";
-import { levelItem, ITEM_TYPE, ROTATION_TYPE } from "./levelItem";
 import { LevelNumber } from "./LevelNumber";
+import { EDITOR } from "cc/env";
+import { RoadType } from "../comman/Interfaces";
+import { levelItem } from "./levelItem";
 
 const { ccclass, property } = _decorator;
 const anglePairs = {
@@ -30,19 +36,16 @@ const anglePairs = {
   270: [90, 270],
 };
 
+/**
+ * @description this class is responsible for gameplay logic and preview of template created using level creator.
+ */
 @ccclass("GamePlay")
 export class GamePlay extends Component {
-  /**
-   * Array of Road data with values prefab and item type.
-   */
+  // Array of Road data with values prefab and item type.
   @property({ type: [BaseData], visible: true }) roadsData: BaseData[] = [];
   @property({ type: Node }) mainNode: Node;
   @property({ type: Node }) levelLabel: Node;
 
-  // Random initial rotation angles for four-way items at the start of the level
-  fourWayArray = [0, 90, 180, 270];
-  // Random initial rotation angles for two-way items at the start of the level
-  twoWayArray = [0, 90];
   // Data structure for optimization.
   roadTypeKeyPair: {} = {};
 
@@ -59,11 +62,11 @@ export class GamePlay extends Component {
       this.roadsData.forEach((value) => {
         this.roadTypeKeyPair[value.roadType] = value._roadPrefab;
       });
-      this.updateLevel(this._testLevel.json, false);
+      this.updateLevel(this._testLevel.json, false, 0);
     }
   }
 
-  // To print the data of the level which was created.
+  // To print the data of the level which was updated.
   _printData: Boolean = false;
   @property({ type: CCBoolean })
   get printData() {
@@ -101,104 +104,62 @@ export class GamePlay extends Component {
     this.roadsData.forEach((value) => {
       this.roadTypeKeyPair[value.roadType] = value._roadPrefab;
     });
-    this.initNewLevel();
+    this.loadAndInitLevel();
   }
 
-  initNewLevel() {
+  /**
+   * @description check if level is available in cache, if not load from resources and update.
+   */
+  loadAndInitLevel() {
+    const levelNum = DataManager.Instance.LevelSelected;
     let levelData: JsonAsset = <JsonAsset>(
-      ResourcesManager.Instance.getResourceFromCache(
-        `level${DataManager.Instance.LevelSelected}`
-      )
+      ResourcesManager.Instance.getResourceFromCache(`level${levelNum}`)
     );
     if (levelData) {
-      this.mainNode.destroyAllChildren();
-      this.updateLevel(levelData.json, true);
-      this.levelInitiated();
+      this.updateLevel(levelData.json, true, levelNum);
     } else {
       const levelPath = `Levels/level${DataManager.Instance.LevelSelected}`;
       resources.load(levelPath, JsonAsset, (err, level) => {
-        this.mainNode.destroyAllChildren();
-        this.updateLevel(level.json, true);
-        this.levelInitiated();
+        this.updateLevel(level.json, true, levelNum);
       });
     }
   }
 
-  levelInitiated() {
-    this.levelLabel
-      .getComponent(LevelNumber)
-      .updateLevelNumber(DataManager.Instance.LevelSelected);
-    GameManager.Instance.PersistNodeRef.playEffect(
-      ResourcesManager.Instance.getResourceFromCache(SOUNDS_NAME.SHAPE_APPEAR)
-    );
-  }
+  /**
+   * @description Iterating the json file and checking each asset's types and creating the instance according to the type
+   * @param pathInfo information of complete path.
+   * @param changeAngles false if want to view completed level in editor
+   * @param levelNum level number
+   */
+  updateLevel(pathInfo: any, changeAngles: boolean, levelNum: number) {
+    !EDITOR &&
+      GameManager.Instance.PersistNodeRef.playEffect(
+        ResourcesManager.Instance.getResourceFromCache(SOUNDS_NAME.SHAPE_APPEAR)
+      );
+    this.mainNode.destroyAllChildren();
+    this.levelLabel.getComponent(LevelNumber).updateLevelNumber(levelNum);
 
-  updateLevel = (itemsInfo: any, changeAngles: boolean) => {
-    /**
-     * Iterating the json file and checking each asset's types and creating the instance according to the type
-     */
+    let path = pathInfo.path;
+    let delayInRoadSpawn: number =
+      DURATIONS.LEVEL_BUILDING / pathInfo.path.length;
 
-    let path = itemsInfo.path;
-    let delayInEachRoad: number =
-      DURATIONS.LEVEL_BUILDING / itemsInfo.path.length;
-
-    path.forEach((element, index) => {
-      let item: Node = null;
+    let item: Node = null;
+    path.forEach((element: RoadType, index: number) => {
       item = instantiate(this.roadTypeKeyPair[element.itemType]);
-      item.setPosition(new Vec3(element.x, element.y, element.z));
-      item.getComponent(levelItem).resultantAngle = element.angle;
-      item.getComponent(levelItem).isFixed = element.isFixed;
-      // item.getComponent(levelItem).rotationType = element.rotationType;
       this.mainNode.addChild(item);
-
-      if (!element.isFixed && changeAngles) {
-        switch (element.rotationType) {
-          case ROTATION_TYPE.FOUR_WAY:
-            item.angle = this.getRandomDirection(
-              element.angle,
-              this.fourWayArray
-            );
-            break;
-          case ROTATION_TYPE.TWO_WAY:
-            const randomIndex = Math.floor(
-              Math.random() * this.twoWayArray.length
-            );
-            item.angle = this.twoWayArray[randomIndex];
-            break;
-
-          default:
-            break;
-        }
-
-        // Touch event on items which are not fixed
-        item.on(Input.EventType.TOUCH_START, this.checkPos);
-        tween(item)
-          .call(() => {
-            item.setScale(Vec3.ZERO);
-          })
-          .delay(index * delayInEachRoad)
-          .to(0.1, { scale: Vec3.ONE }, { easing: easing.expoOut })
-          .start();
-      } else {
-        item.angle = element.angle;
-      }
+      item
+        .getComponent(levelItem)
+        .updateData(
+          element,
+          changeAngles,
+          index,
+          delayInRoadSpawn,
+          this.rotateRoad
+        );
     });
-    // this.randomize();
-  };
-
-  getRandomDirection(currentValue, directions) {
-    // Filter out the current value
-    const possibleDirections = directions.filter(
-      (direction) => direction !== currentValue
-    );
-
-    // Choose a random index from the possible directions
-    const randomIndex = Math.floor(Math.random() * possibleDirections.length);
-
-    return possibleDirections[randomIndex];
   }
 
-  checkPos = (event) => {
+  rotateRoad = (event) => {
     const rotationType: ROTATION_TYPE =
       event.target.getComponent(levelItem).rotationType;
     let angle = (event.target.angle + 90) % 450;
@@ -211,17 +172,18 @@ export class GamePlay extends Component {
         if (angle == 360) {
           event.target.angle = 0;
         }
-        this.checkIfLevelCompleted();
+        this.checkProgressAndEndGame();
       })
       .start();
   };
 
-  checkIfLevelCompleted() {
-    if (this.gameCompleted()) {
+  checkProgressAndEndGame() {
+    const isGameCompleted = this.gameCompleted();
+    if (isGameCompleted) {
       DataManager.Instance.levelFinished();
 
       this.mainNode.children.forEach((element, index) => {
-        element.off(Input.EventType.TOUCH_START, this.checkPos);
+        element.off(Input.EventType.TOUCH_START, this.rotateRoad);
       });
       DataManager.Instance.incrementSlectedLevel();
 
@@ -232,9 +194,9 @@ export class GamePlay extends Component {
       );
 
       this.levelLabel.getComponent(LevelNumber).exit();
-      this.playTweenOnChildren(this.mainNode, () => {
+      this.playLevelEndAnimation(this.mainNode, () => {
         setTimeout(() => {
-          this.initNewLevel();
+          this.loadAndInitLevel();
         }, 1000);
       });
     }
@@ -294,7 +256,7 @@ export class GamePlay extends Component {
    * @param node Parent of nodes on which tween has to be played.
    * @param finalCallback Calback to be triggerd after complition of all the tweens.
    */
-  playTweenOnChildren(node: Node, finalCallback: Function) {
+  playLevelEndAnimation(node: Node, finalCallback: Function) {
     const children = node.children;
     let promiseChain = [];
 
@@ -311,7 +273,6 @@ export class GamePlay extends Component {
     GameManager.Instance.PersistNodeRef.playEffect(
       ResourcesManager.Instance.getResourceFromCache(SOUNDS_NAME.DEFAULT_CLICK)
     );
-
     director.loadScene(SCENE.LOBBY);
   }
 }

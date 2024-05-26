@@ -34,6 +34,23 @@ export enum SOUNDS_NAME {
   LEVEL_COMPLETE = "LevelComplete",
 }
 
+export enum ITEM_TYPE {
+  NONE = 0,
+  ROAD1,
+  ROAD2,
+  ROAD3,
+  ROAD4,
+  ROAD5,
+  ROAD6,
+  ROAD7,
+}
+export enum ROTATION_TYPE {
+  NONE,
+  TWO_WAY,
+  FOUR_WAY,
+  ZERO_WAY,
+}
+
 export enum ASSET_CACHE_MODE {
   /** 一Secondary (immediately destroy nodes, prefabricated body resources are released immediately） */
   Once = 1,

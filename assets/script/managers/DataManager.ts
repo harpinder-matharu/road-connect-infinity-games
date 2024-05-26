@@ -1,6 +1,6 @@
 /**
  * This class is to Manage overall game data
- * @author : @chandankrishn
+ * @author : @harpinder
  * Add functions and variable according
  */
 
