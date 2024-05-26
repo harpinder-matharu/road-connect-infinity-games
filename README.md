@@ -46,7 +46,8 @@ Steps to create new Level
 ### Links
 
 1. **Game** [https://roadconnect-harpinder.netlify.app/].
-2. **Level creator** [https://level-creator-harpinder.netlify.app/].
+2. **Game Locked** [https://roadconnect-harpinder-locked.netlify.app/]
+3. **Level creator** [https://level-creator-harpinder.netlify.app/].
 
 ### Controls
 
