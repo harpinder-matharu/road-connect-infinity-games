@@ -112,7 +112,7 @@ export class Lobby extends Component {
         .to(
           DURATIONS.LOGO_IN,
           { position: new Vec3(0, node.position.y, 0) },
-          { easing: easing.elasticOut }
+          { easing: easing.sineOut }
         )
         .call(() => {
           resolve();
