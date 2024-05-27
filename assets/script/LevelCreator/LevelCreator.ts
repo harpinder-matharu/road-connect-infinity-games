@@ -139,7 +139,11 @@ export class LevelCreator extends Component {
         completeLevel.push(itemObj);
       }
     });
-    console.log(completeLevel);
+    const newLevel = {
+      path: completeLevel,
+    };
+
+    this.downloadJSON(newLevel, "level");
   }
 
   onClear() {
@@ -151,5 +155,16 @@ export class LevelCreator extends Component {
         road.removeFromParent();
       }
     });
+  }
+
+  downloadJSON(obj: any, fileName: string) {
+    const jsonStr = JSON.stringify(obj, null, 2);
+    const blob = new Blob([jsonStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 }

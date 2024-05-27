@@ -32,14 +32,13 @@ Welcome to **ROAD CONNECT**! You'll dive into a challenging and addictive puzzle
 
 Steps to create new Level
 
-1. **Run Scene:** Select LevelCreator scene from the dropdown.
-2. **Drag & Drop:** Drag and drop road from the menu onto the grid.
-3. **Change Angle:** change angle of the road by clicking on it.
-4. **Undo single Grid:** Drag and drop last empty road to clear particular block.
-5. **Clear Grid:** Click clear button to clear the grid.
-6. **Print Data:** To print level data click done button.
-7. **Save:** Copy object from the console and paste in the new level file eg. level11.json.
-8. **Change Max Level:** Change value of "MAX_LEVELS" vaiable with max number of levels in constant.ts file.
+1. **Run Scene:** Select the LevelCreator scene from the dropdown.
+2. **Drag & Drop:** Drag and drop a road from the menu onto the grid.
+3. **Change Angle:** Change the angle of the road by clicking on it.
+4. **Undo Single Grid:** Drag and drop the last empty road to clear a particular block.
+5. **Clear Grid:** Click the "Clear" button to clear the grid.
+6. **Save Level:** Click the "Save" button to download the file. Rename the file with the appropriate level number and add it to the resources > Levels folder, e.g., level11.json.
+7. **Change Max Level:** Change the value of the "MAX_LEVELS" variable to the maximum number of levels in the constant.ts file.
 
 ## Gameplay
 

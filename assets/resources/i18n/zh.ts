@@ -3,7 +3,7 @@ const win = window as any;
 export const languages = {
   label_text: {
     clear: "CLEAR",
-    done: "DONE",
+    done: "SAVE",
     road: "ROAD",
     connect: "CONNECT",
     play: "PLAY",

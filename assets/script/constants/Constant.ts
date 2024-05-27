@@ -19,7 +19,7 @@ export const DURATIONS = {
   PLAY_IN: 0.5,
 };
 
-export const MAX_LEVELS = 10;
+export const MAX_LEVELS = 11;
 export const IS_TESTING_MODE = true;
 
 export const CUSTON_EVENT = {
