@@ -9,8 +9,9 @@
    - [Controls](#controls)
    - [Objectives](#objectives)
    - [Support](#support)
-5. [Credits](#credits)
-6. [License](#license)
+5. [Coding Practices](#CodingPractices)
+6. [Credits](#credits)
+7. [License](#license)
 
 ## Introduction
 
@@ -61,6 +62,42 @@ completing levels, solving puzzles.
 ### Support
 
 For further assistance, please contact our support team at [harpinder541@gmail.com].
+
+## Coding Practices
+
+### Initial Scene: Lobby
+
+Responsible for:
+
+- Logo animation
+- Resource loading
+- Persistnode integration
+- UI creation
+- Level selection interface
+
+### Persistnode
+
+- Integrated to ensure that attached components, such as the music/sound manager, continue to function across scenes.
+
+### Localization Support
+
+- Integrated Cocos extension i18n.
+- Supported languages: English, French, Portuguese.
+
+### Multi-Resolution Support
+
+- Utilizes the `ScreenAdapter.ts` class for multi-resolution handling.
+- Attached to the canvas.
+- Adjusts resolution based on screen ratio to fit height or width on resize.
+- Widget is used, it can automatically align the current node to any position in the parent node's bounding box, or constrain the size, making game easily adaptable to different resolutions.
+
+### Gameplay
+
+- Creates a map (roadTypeKeyPair) of road segment prefabs to avoid iteration.
+- Loads levels and checks if a level is already loaded. If not in cache, loads it from resources.
+- Creates levels and updates properties of each road segment.
+- Checks game progress by comparing the resultant angle of each segment with the current angle.
+- Loads the next level upon completion; if it is the last level, reloads the first level.
 
 ## Credits
 

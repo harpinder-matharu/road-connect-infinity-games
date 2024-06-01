@@ -4,6 +4,9 @@ import { EDITOR } from "cc/env";
 import { ITEM_TYPE } from "../constants/Constant";
 const { ccclass, property } = _decorator;
 
+/**
+ * @description // Basic data type for a road segment, used as a property in the gameplay mechanics.
+ */
 @ccclass("BaseData")
 export class BaseData {
   @property({ type: Prefab })

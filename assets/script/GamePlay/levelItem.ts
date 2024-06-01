@@ -20,6 +20,16 @@ export class levelItem extends Component {
 
   start() {}
 
+  /**
+   * Initializes a road segment with specified parameters.
+   *
+   * @param {RoadType} element - The type of road segment.
+   * @param {boolean} changeAngles - Determines if the initial angle should be random or resultant.
+   * @param {number} index - The counter for the road segment based on its position in the path.
+   * @param {number} delayInRoadSpawn - The delay in spawning each segment, in seconds.
+   * @param {Function} callback - The function to call after all segments have spawned.
+   */
+
   updateData(
     element: RoadType,
     changeAngles: boolean,

@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, tween } from "cc";
-import { ROTATION_TYPE, levelItem } from "../GamePlay/levelItem";
+import { levelItem } from "../GamePlay/levelItem";
+import { ROTATION_TYPE } from "../constants/Constant";
 
 const { ccclass, property } = _decorator;
 
