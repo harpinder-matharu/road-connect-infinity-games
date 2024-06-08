@@ -7,5 +7,11 @@
       "fitHeight": false,
       "fitWidth": false
     }
-  }
+  },
+  "layer": [
+    {
+      "name": "PERSIST_NODE",
+      "value": 524288
+    }
+  ]
 }

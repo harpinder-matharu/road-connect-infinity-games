@@ -13,7 +13,7 @@ export class levelItem extends Component {
 
   resultantAngle: number;
   // Random initial rotation angles for four-way items at the start of the level
-  fourWayArray = [0, 90, 180, 270];
+  fourWayArray: Array<number> = [0, 90, 180, 270];
   // Random initial rotation angles for two-way items at the start of the level
   twoWayArray = [0, 90];
   // Data structure for opt
@@ -70,7 +70,7 @@ export class levelItem extends Component {
       this.node.angle = element.angle;
     }
   }
-  getRandomDirection(currentValue, directions) {
+  getRandomDirection(currentValue, directions: Array<number>) {
     // Filter out the current value
     const possibleDirections = directions.filter(
       (direction) => direction !== currentValue

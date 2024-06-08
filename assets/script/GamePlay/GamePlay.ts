@@ -42,7 +42,7 @@ const anglePairs = {
 @ccclass("GamePlay")
 export class GamePlay extends Component {
   // Array of Road data with values prefab and item type.
-  @property({ type: [BaseData], visible: true }) roadsData: BaseData[] = [];
+  @property({ type: BaseData, visible: true }) roadsData = [];
   @property({ type: Node }) mainNode: Node;
   @property({ type: Node }) levelLabel: Node;
 
@@ -159,6 +159,13 @@ export class GamePlay extends Component {
     });
   }
 
+  /**
+   * @description By using modulo 450, the code allows the angle to include the
+   * 360-degree mark, making the full rotation visible in the animation.
+   * Resetting to 0 after reaching 360 ensures that angles remain within the typical
+   * 0-359 range for game logic while allowing a complete visual rotation.
+   * @param event
+   */
   rotateRoad = (event) => {
     const rotationType: ROTATION_TYPE =
       event.target.getComponent(levelItem).rotationType;
@@ -169,6 +176,7 @@ export class GamePlay extends Component {
     tween(event.target)
       .to(0.1, { angle: angle })
       .call(() => {
+        //ensures that the angle of 360 degrees is normalized to 0 degrees. This line will only affect the case where event.target.angle reaches 360 degrees.
         if (angle == 360) {
           event.target.angle = 0;
         }
@@ -207,28 +215,30 @@ export class GamePlay extends Component {
    * @returns a boolean variable indicating whether our game is over
    */
   gameCompleted = () => {
-    let flag = true;
-    this.mainNode.children.forEach((element) => {
-      const rotationType = element.getComponent(levelItem).rotationType;
-      const resultantAngle = element.getComponent(levelItem).resultantAngle;
+    for (const element of this.mainNode.children) {
+      const component = element.getComponent(levelItem);
+      const rotationType = component.rotationType;
+      const resultantAngle = component.resultantAngle;
+
       switch (rotationType) {
         case ROTATION_TYPE.TWO_WAY:
           if (!anglePairs[resultantAngle].includes(element.angle)) {
-            flag = false;
+            return false;
           }
           break;
         case ROTATION_TYPE.FOUR_WAY:
           if (element.angle !== resultantAngle) {
-            flag = false;
+            return false;
           }
           break;
         case ROTATION_TYPE.ZERO_WAY:
+          // No checks needed for ZERO_WAY
           break;
         default:
           break;
       }
-    });
-    return flag;
+    }
+    return true;
   };
 
   /**
